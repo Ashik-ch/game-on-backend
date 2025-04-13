@@ -13,7 +13,7 @@ export class AdminService {
         (turf) => turf.turf_type === turfType,
       );
       if (filteredTurfs.length === 0) {
-        throw new NotFoundException('No turfs found for the specified type');
+        throw new NotFoundException('No turfs found for the specified type'); //   @throws {NotFoundException} If no turfs are found for the specified type.
       }
       return filteredTurfs;
     }
@@ -41,8 +41,9 @@ export class AdminService {
 
   delete(id: number) {
     const turfIndex = this.turf.findIndex((turf) => turf.id === id);
-    if (turfIndex === -1) return null;
-
+    if (turfIndex === -1) {
+      throw new NotFoundException(`Turf with id ${id} not found`);
+    }
     return this.turf.splice(turfIndex, 1)[0];
   }
 }
