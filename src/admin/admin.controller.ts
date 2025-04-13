@@ -16,8 +16,8 @@ export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Get()
-  findAll(@Query('turf_type') turf_type: string) {
-    return this.adminService.findAll(turf_type);
+  findAll(@Query('turf_type') turfType: string) {
+    return this.adminService.findAll(turfType);
   }
 
   @Get(':id')
@@ -31,12 +31,12 @@ export class AdminController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body: UpdateTurfDto) {
+  update(@Param('id') id: number, @Body() body: UpdateTurfDto) {
     return this.adminService.update(id, body);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  delete(@Param('id') id: number) {
     return this.adminService.delete(id);
   }
 }
