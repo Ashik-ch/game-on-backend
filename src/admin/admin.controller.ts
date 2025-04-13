@@ -10,7 +10,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { CreateTurfDto, UpdateTurfDto } from './admin.dto';
+import { CreateTurfDto, UpdateTurfDto } from './DTO/admin.dto';
 
 @Controller('admin')
 export class AdminController {

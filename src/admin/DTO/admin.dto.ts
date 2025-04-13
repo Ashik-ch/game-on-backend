@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-export interface CreateTurfDto {
+export class CreateTurfDto {
   id?: number;
   name: string;
   mobile: string;
@@ -10,7 +10,7 @@ export interface CreateTurfDto {
   turf_price: number;
 }
 
-export interface UpdateTurfDto {
+export class UpdateTurfDto {
   id: number;
   name?: string;
   mobile?: string;

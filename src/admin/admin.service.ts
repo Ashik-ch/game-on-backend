@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { turf } from 'src/data';
-import { CreateTurfDto, UpdateTurfDto } from './admin.dto';
+import { CreateTurfDto, UpdateTurfDto } from './DTO/admin.dto';
 
 @Injectable()
 export class AdminService {
