@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { turf } from 'src/data';
 import { CreateTurfDto, UpdateTurfDto } from './DTO/admin.dto';
 
@@ -8,13 +8,22 @@ export class AdminService {
   private turf = turf;
 
   findAll(turfType?: string) {
-    return turfType
-      ? this.turf.filter((turf) => turf.turf_type === turfType)
-      : this.turf;
+    if (turfType) {
+      const filteredTurfs = this.turf.filter(
+        (turf) => turf.turf_type === turfType,
+      );
+      if (filteredTurfs.length === 0) {
+        throw new NotFoundException('No turfs found for the specified type');
+      }
+      return filteredTurfs;
+    }
+    return this.turf;
   }
 
   findOne(id: number) {
-    return this.turf.find((turf) => turf.id == id);
+    const user = this.turf.find((turf) => turf.id == id);
+    if (!user) throw new NotFoundException(`Turf with id ${id} not found`);
+    return user;
   }
 
   create(turfData: CreateTurfDto) {

@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateTurfDto, UpdateTurfDto } from './DTO/admin.dto';
@@ -27,13 +28,16 @@ export class AdminController {
   }
 
   @Post()
-  create(@Body() body: CreateTurfDto) {
-    return this.adminService.create(body);
+  create(@Body(ValidationPipe) createTurfDto: CreateTurfDto) {
+    return this.adminService.create(createTurfDto);
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateTurfDto) {
-    return this.adminService.update(id, body);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateTurfDto: UpdateTurfDto,
+  ) {
+    return this.adminService.update(id, updateTurfDto);
   }
 
   @Delete(':id')
