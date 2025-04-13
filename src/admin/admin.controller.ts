@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -21,7 +22,7 @@ export class AdminController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.adminService.findOne(id);
   }
 
@@ -31,12 +32,12 @@ export class AdminController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() body: UpdateTurfDto) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateTurfDto) {
     return this.adminService.update(id, body);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: number) {
+  delete(@Param('id', ParseIntPipe) id: number) {
     return this.adminService.delete(id);
   }
 }
