@@ -1,0 +1,27 @@
+// prisma/schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // uncomment next line if you use Prisma <5.10
+  // directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+model Turf {
+  id           Int      @id @default(autoincrement())
+  name         String
+  mobile       String
+  opening_time String
+  closing_time String
+  location     String
+  turf_type    TurfType
+  turf_price   Int
+  email        String   @unique
+  password     String
+  CreatedAt    DateTime @default(now())
+  UpdatedAt    DateTime @updatedAt
+}
+
+enum TurfType {
+  Outdoor
+  Indoor
+}
