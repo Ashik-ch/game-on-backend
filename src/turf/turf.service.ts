@@ -1,27 +1,37 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import { CreateTurfDto } from './dto/create-turf.dto';
-import { UpdateTurfDto } from './dto/update-turf.dto';
+import { Prisma } from '@prisma/client';
+import { DatabaseService } from '../database/database.service';
 
 @Injectable()
 export class TurfService {
-  create(createTurfDto: CreateTurfDto) {
-    return 'This action adds a new turf';
+  constructor(private readonly databaseService: DatabaseService) {}
+
+  create(createTurfDto: Prisma.TurfCreateInput) {
+    return this.databaseService.turf.create({ data: createTurfDto });
   }
 
-  findAll() {
-    return `This action returns all turf`;
+  findAll(turfType?: 'Indoor' | 'Outdoor') {
+    if (turfType) {
+      return this.databaseService.turf.findMany({
+        where: { turf_type: turfType },
+      });
+    }
+    return this.databaseService.turf.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} turf`;
+    return this.databaseService.turf.findUnique({ where: { id } });
   }
 
-  update(id: number, updateTurfDto: UpdateTurfDto) {
-    return `This action updates a #${id} turf`;
+  update(id: number, updateTurfDto: Prisma.TurfUpdateInput) {
+    return this.databaseService.turf.update({
+      where: { id },
+      data: updateTurfDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} turf`;
+    return this.databaseService.turf.delete({ where: { id } });
   }
 }

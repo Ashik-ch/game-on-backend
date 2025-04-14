@@ -7,23 +7,23 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { TurfService } from './turf.service';
-import { CreateTurfDto } from './dto/create-turf.dto';
-import { UpdateTurfDto } from './dto/update-turf.dto';
+import { Prisma } from '@prisma/client';
 
 @Controller('turf')
 export class TurfController {
   constructor(private readonly turfService: TurfService) {}
 
   @Post()
-  create(@Body() createTurfDto: CreateTurfDto) {
+  create(@Body() createTurfDto: Prisma.TurfCreateInput) {
     return this.turfService.create(createTurfDto);
   }
 
   @Get()
-  findAll() {
-    return this.turfService.findAll();
+  findAll(@Query('turfType') turfType?: 'Indoor' | 'Outdoor') {
+    return this.turfService.findAll(turfType);
   }
 
   @Get(':id')
@@ -32,7 +32,10 @@ export class TurfController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTurfDto: UpdateTurfDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTurfDto: Prisma.TurfUpdateInput,
+  ) {
     return this.turfService.update(+id, updateTurfDto);
   }
 
