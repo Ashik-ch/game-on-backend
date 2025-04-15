@@ -5,7 +5,7 @@ import { DatabaseService } from '../database/database.service';
 
 @Injectable()
 export class TurfService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService) { }
 
   create(createTurfDto: Prisma.TurfCreateInput) {
     return this.databaseService.turf.create({ data: createTurfDto });

@@ -14,7 +14,7 @@ import { Prisma } from '@prisma/client';
 
 @Controller('turf')
 export class TurfController {
-  constructor(private readonly turfService: TurfService) {}
+  constructor(private readonly turfService: TurfService) { }
 
   @Post()
   create(@Body() createTurfDto: Prisma.TurfCreateInput) {
