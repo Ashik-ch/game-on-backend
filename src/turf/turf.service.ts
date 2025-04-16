@@ -2,19 +2,31 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from '../database/database.service';
+import { CreateTurfDto } from './dto/create-turf.dto';
 
 @Injectable()
 export class TurfService {
   constructor(private readonly databaseService: DatabaseService) { }
 
-  create(createTurfDto: Prisma.TurfCreateInput) {
-    return this.databaseService.turf.create({ data: createTurfDto });
+  create(createTurfDto: CreateTurfDto) {
+    return this.databaseService.turf.create({
+      data: {
+        turf_name: createTurfDto.turf_name,
+        mobile_number: createTurfDto.mobile_number,
+        opening_time: createTurfDto.opening_time,
+        closing_time: createTurfDto.closing_time,
+        turf_address: createTurfDto.turf_address,
+        turf_types: createTurfDto.turf_types,
+        turf_email: createTurfDto.turf_email,
+        turf_password: createTurfDto.turf_password,
+      },
+    });
   }
 
   findAll(turfType?: 'Indoor' | 'Outdoor') {
     if (turfType) {
       return this.databaseService.turf.findMany({
-        where: { turf_type: turfType },
+        where: { turf_types: { has: turfType } },
       });
     }
     return this.databaseService.turf.findMany();

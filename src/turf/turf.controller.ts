@@ -11,13 +11,14 @@ import {
 } from '@nestjs/common';
 import { TurfService } from './turf.service';
 import { Prisma } from '@prisma/client';
+import { CreateTurfDto } from './dto/create-turf.dto';
 
 @Controller('turf')
 export class TurfController {
   constructor(private readonly turfService: TurfService) { }
 
   @Post()
-  create(@Body() createTurfDto: Prisma.TurfCreateInput) {
+  create(@Body() createTurfDto: CreateTurfDto) {
     return this.turfService.create(createTurfDto);
   }
 
