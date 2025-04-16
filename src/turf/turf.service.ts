@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { DatabaseService } from '../database/database.service';
 import { CreateTurfDto } from './dto/create-turf.dto';
+import { UpdateTurfDto } from './dto/update-turf.dto';
 
 @Injectable()
 export class TurfService {
@@ -36,7 +36,7 @@ export class TurfService {
     return this.databaseService.turf.findUnique({ where: { id } });
   }
 
-  update(id: number, updateTurfDto: Prisma.TurfUpdateInput) {
+  update(id: number, updateTurfDto: UpdateTurfDto) {
     return this.databaseService.turf.update({
       where: { id },
       data: updateTurfDto,

@@ -10,8 +10,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { TurfService } from './turf.service';
-import { Prisma } from '@prisma/client';
 import { CreateTurfDto } from './dto/create-turf.dto';
+import { UpdateTurfDto } from './dto/update-turf.dto';
 
 @Controller('turf')
 export class TurfController {
@@ -35,7 +35,7 @@ export class TurfController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateTurfDto: Prisma.TurfUpdateInput,
+    @Body() updateTurfDto: UpdateTurfDto,
   ) {
     return this.turfService.update(+id, updateTurfDto);
   }
