@@ -12,18 +12,17 @@ datasource db {
 }
 
 model Turf {
-  id           Int      @id @default(autoincrement())
-  name         String
-  mobile       String
-  opening_time String
-  closing_time String
-  location     String
-  turf_type    TurfType
-  turf_price   Int
-  email        String   @unique
-  password     String
-  CreatedAt    DateTime @default(now())
-  UpdatedAt    DateTime @updatedAt
+  id            Int        @id @default(autoincrement())
+  turf_name     String
+  mobile_number String
+  opening_time  String
+  closing_time  String
+  turf_address  String
+  turf_types    TurfType[]
+  turf_email    String     @unique
+  turf_password String
+  CreatedAt     DateTime   @default(now())
+  UpdatedAt     DateTime   @updatedAt
 }
 
 enum TurfType {
