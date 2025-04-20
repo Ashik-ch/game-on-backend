@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { AdminModule } from './admin/admin.module';
 import { DatabaseModule } from './database/database.module';
 import { TurfModule } from './turf/turf.module';
+import { GamesModule } from './games/games.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { TurfModule } from './turf/turf.module';
     AdminModule,
     DatabaseModule,
     TurfModule,
+    GamesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
