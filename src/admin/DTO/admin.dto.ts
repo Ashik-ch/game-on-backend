@@ -4,6 +4,11 @@
 import { IsEmail, IsEnum, IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateTurfDto {
+
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -24,16 +29,12 @@ export class CreateTurfDto {
   @IsNotEmpty()
   location: string;
 
-  @IsString()
   @IsNotEmpty()
   @IsEnum(['Outdoor', 'Indoor'], {
-    message: 'Turf type must be either Outdoor or Indoor',
+    each: true,
+    message: 'Each turf type must be either Outdoor or Indoor',
   })
-  turf_type: string;
-
-  @IsInt()
-  @IsNotEmpty()
-  turf_price: number;
+  turf_types: string[];
 
   @IsEmail()
   @IsNotEmpty()

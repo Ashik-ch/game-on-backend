@@ -32,18 +32,18 @@ export class TurfService {
     return this.databaseService.turf.findMany();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.databaseService.turf.findUnique({ where: { id } });
   }
 
-  update(id: number, updateTurfDto: UpdateTurfDto) {
+  update(id: string, updateTurfDto: UpdateTurfDto) {
     return this.databaseService.turf.update({
       where: { id },
       data: updateTurfDto,
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.databaseService.turf.delete({ where: { id } });
   }
 }

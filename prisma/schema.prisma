@@ -2,6 +2,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -12,7 +13,7 @@ datasource db {
 }
 
 model Turf {
-  id            Int        @id @default(autoincrement())
+  id            String     @id @default(uuid())
   turf_name     String
   mobile_number String
   opening_time  String
@@ -23,9 +24,27 @@ model Turf {
   turf_password String
   CreatedAt     DateTime   @default(now())
   UpdatedAt     DateTime   @updatedAt
+  games         TurfGame[]
+}
+
+model Game {
+  id         String     @id @default(uuid())
+  game_name  String
+  game_price Int
+  turf_types TurfType[]
+  assignedTo TurfGame[]
+}
+
+model TurfGame {
+  id        String   @id @default(uuid())
+  turf      Turf     @relation(fields: [turfId], references: [id])
+  turfId    String
+  game      Game     @relation(fields: [gameId], references: [id])
+  gameId    String
+  createdAt DateTime @default(now())
 }
 
 enum TurfType {
-  Outdoor
   Indoor
+  Outdoor
 }

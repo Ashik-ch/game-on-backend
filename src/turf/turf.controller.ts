@@ -29,7 +29,7 @@ export class TurfController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.turfService.findOne(+id);
+    return this.turfService.findOne(id);
   }
 
   @Patch(':id')
@@ -37,11 +37,11 @@ export class TurfController {
     @Param('id') id: string,
     @Body() updateTurfDto: UpdateTurfDto,
   ) {
-    return this.turfService.update(+id, updateTurfDto);
+    return this.turfService.update(id, updateTurfDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.turfService.remove(+id);
+    return this.turfService.remove(id);
   }
 }

@@ -15,7 +15,7 @@ import { CreateTurfDto, UpdateTurfDto } from './DTO/admin.dto';
 
 @Controller('admin')
 export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(private readonly adminService: AdminService) { }
 
   /**
    * Retrieves a list of all turfs, optionally filtered by turf type.
@@ -32,7 +32,7 @@ export class AdminController {
    * @returns The details of the specified turf.
    */
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id', ParseIntPipe) id: string) {
     return this.adminService.findOne(id);
   }
 
@@ -50,14 +50,14 @@ export class AdminController {
    */
   @Patch(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseIntPipe) id: string,
     @Body(ValidationPipe) updateTurfDto: UpdateTurfDto,
   ) {
     return this.adminService.update(id, updateTurfDto);
   }
 
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: number) {
+  delete(@Param('id', ParseIntPipe) id: string) {
     return this.adminService.delete(id);
   }
 }
