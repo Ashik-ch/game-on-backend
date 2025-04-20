@@ -1,49 +1,50 @@
-/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import { DatabaseService } from '../database/database.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateTurfDto } from './dto/create-turf.dto';
 import { UpdateTurfDto } from './dto/update-turf.dto';
+import { Turf } from './entities/turf.entity';
 
 @Injectable()
 export class TurfService {
-  constructor(private readonly databaseService: DatabaseService) { }
 
-  create(createTurfDto: CreateTurfDto) {
-    return this.databaseService.turf.create({
-      data: {
-        turf_name: createTurfDto.turf_name,
-        mobile_number: createTurfDto.mobile_number,
-        opening_time: createTurfDto.opening_time,
-        closing_time: createTurfDto.closing_time,
-        turf_address: createTurfDto.turf_address,
-        turf_types: createTurfDto.turf_types,
-        turf_email: createTurfDto.turf_email,
-        turf_password: createTurfDto.turf_password,
-      },
-    });
+  constructor(
+    @InjectRepository(Turf) private readonly turfRepo: Repository<Turf>,
+  ) { }
+
+  /**   * Create a new turf   */
+  async create(createTurfDto: CreateTurfDto): Promise<Turf> {
+    const turf = this.turfRepo.create(createTurfDto);
+    return this.turfRepo.save(turf);
   }
 
-  findAll(turfType?: 'Indoor' | 'Outdoor') {
+  /**
+   * Retrieve all turfs, optionally filtered by a turf type (Indoor/Outdoor)
+   */
+  async findAll(turfType?: string): Promise<Turf[]> {
+    const qb = this.turfRepo.createQueryBuilder('turf');
     if (turfType) {
-      return this.databaseService.turf.findMany({
-        where: { turf_types: { has: turfType } },
-      });
+      qb.where(':type = ANY(turf.turf_types)', { type: turfType });
     }
-    return this.databaseService.turf.findMany();
+    return qb.getMany();
   }
 
-  findOne(id: string) {
-    return this.databaseService.turf.findUnique({ where: { id } });
-  }
-
-  update(id: string, updateTurfDto: UpdateTurfDto) {
-    return this.databaseService.turf.update({
+  /** Retrieve a single turf by ID  */
+  async findOne(id: string): Promise<Turf> {
+    return this.turfRepo.findOneOrFail({
       where: { id },
-      data: updateTurfDto,
+      relations: ['games'],
     });
   }
 
-  remove(id: string) {
-    return this.databaseService.turf.delete({ where: { id } });
+  /**   * Update an existing turf  */
+  async update(id: string, dto: UpdateTurfDto): Promise<Turf> {
+    await this.turfRepo.update(id, dto);
+    return this.findOne(id);
+  }
+
+  /**   * Remove a turf by ID   */
+  async remove(id: string): Promise<void> {
+    await this.turfRepo.delete(id);
   }
 }
