@@ -1,15 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AdminModule } from './admin/admin.module';
-import { DatabaseModule } from './database/database.module';
-import { TurfModule } from './turf/turf.module';
-import { GamesModule } from './games/games.module';
+/* eslint-disable prettier/prettier */
+import { Module } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { AdminModule } from "./admin/admin.module";
+import { GamesModule } from "./games/games.module";
+import { TurfModule } from "./turf/turf.module";
 
 @Module({
   imports: [
@@ -37,7 +34,6 @@ import { GamesModule } from './games/games.module';
     }),
 
     AdminModule,
-    DatabaseModule,
     TurfModule,
     GamesModule,
   ],

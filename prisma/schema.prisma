@@ -24,24 +24,12 @@ model Turf {
   turf_password String
   CreatedAt     DateTime   @default(now())
   UpdatedAt     DateTime   @updatedAt
-  games         TurfGame[]
 }
 
 model Game {
   id         String     @id @default(uuid())
   game_name  String
-  game_price Int
   turf_types TurfType[]
-  assignedTo TurfGame[]
-}
-
-model TurfGame {
-  id        String   @id @default(uuid())
-  turf      Turf     @relation(fields: [turfId], references: [id])
-  turfId    String
-  game      Game     @relation(fields: [gameId], references: [id])
-  gameId    String
-  createdAt DateTime @default(now())
 }
 
 enum TurfType {

@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { TurfService } from './turf.service';
 import { TurfController } from './turf.controller';
-import { DatabaseModule } from 'src/database/database.module';
+import { Turf } from './entities/turf.entity';
 
 @Module({
-  imports: [DatabaseModule],
-  controllers: [TurfController],
+  imports: [TypeOrmModule.forFeature([Turf])],
   providers: [TurfService],
+  controllers: [TurfController],
+  exports: [TurfService],
 })
-export class TurfModule {}
+export class TurfModule { }
