@@ -8,15 +8,14 @@ import { UpdateGameDto } from './dto/update-game.dto';
 
 @Injectable()
 export class GamesService {
-
   constructor(
-    @InjectRepository(Game) private gameRepo: Repository<Game>,
-    @InjectRepository(Turf) private turfRepo: Repository<Turf>,
+    @InjectRepository(Game) private readonly gameRepo: Repository<Game>,
+    @InjectRepository(Turf) private readonly turfRepo: Repository<Turf>,
   ) { }
 
-  async create(createGameDto: CreateGameDto) {
-    const game = this.gameRepo.create({ ...createGameDto });
-    return this.gameRepo.save(game);
+  async create(createGameDto: CreateGameDto): Promise<Game> {
+    const game = this.gameRepo.create(createGameDto);
+    return await this.gameRepo.save(game);
   }
 
   findAll() {
