@@ -3,18 +3,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateTurfDto } from './dto/create-turf.dto';
-import { UpdateTurfDto } from './dto/update-turf.dto';
-import { Turf } from './entities/turf.entity';
+import { Turf } from './entities';
+import { Game } from 'src/games/entities';
+import { AssignGamesDto, CreateTurfDto, UpdateTurfDto } from './dto';
 
 @Injectable()
 export class TurfService {
 
   constructor(
     @InjectRepository(Turf) private readonly turfRepo: Repository<Turf>,
+    @InjectRepository(Game) private readonly gameRepo: Repository<Game>,
   ) { }
 
   /**   * Create a new turf   */
@@ -51,4 +52,18 @@ export class TurfService {
   async remove(id: string): Promise<void> {
     await this.turfRepo.delete(id);
   }
+
+  /**  assigning games to turf  */
+  async assignGamesToTurf(turfId: string, assignGamesDto: AssignGamesDto): Promise<Turf> {
+    const { games } = assignGamesDto;
+    const turf = await this.turfRepo.findOne({
+      where: { id: turfId },
+      relations: ['games'],
+    });
+    if (!turf) throw new NotFoundException('Turf not found');
+    const selectedGames = await this.gameRepo.findByIds(games);
+    turf.games = selectedGames;
+    return await this.turfRepo.save(turf);
+  }
+
 }

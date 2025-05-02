@@ -2,7 +2,8 @@
 import { Game } from 'src/games/entities/game.entity';
 import {
     Entity, PrimaryGeneratedColumn, Column,
-    CreateDateColumn, UpdateDateColumn
+    CreateDateColumn, UpdateDateColumn,
+    ManyToMany, JoinTable
 } from 'typeorm';
 
 @Entity('turf')
@@ -18,4 +19,7 @@ export class Turf {
     @Column() turf_password: string;
     @CreateDateColumn() createdAt: Date;
     @UpdateDateColumn() updatedAt: Date;
+
+    @ManyToMany(() => Game, (game) => game.turfs, { cascade: true })    // relation for assign games
+    @JoinTable() games: Game[];
 }

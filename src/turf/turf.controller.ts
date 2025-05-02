@@ -10,8 +10,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { TurfService } from './turf.service';
-import { CreateTurfDto } from './dto/create-turf.dto';
-import { UpdateTurfDto } from './dto/update-turf.dto';
+import { AssignGamesDto, CreateTurfDto, UpdateTurfDto, } from './dto';
 
 @Controller('turf')
 export class TurfController {
@@ -44,4 +43,11 @@ export class TurfController {
   remove(@Param('id') id: string) {
     return this.turfService.remove(id);
   }
+
+  /**  assigning games to turf  */
+  @Post('assign-games/:id')
+  assignGames(@Param('id') id: string, @Body() assignGamesDto: AssignGamesDto) {
+    return this.turfService.assignGamesToTurf(id, assignGamesDto);
+  }
+
 }
